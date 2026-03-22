@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تقييم الأندية الطلابية | جامعة جازان 1447هـ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav">
+  <div class="nav-links">
+    <button class="nav-btn" onclick="location.href='index.html'">🏠 الأندية</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" onclick="location.href='submit.html'">📋 رفع نشاط</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn active">📊 التقييم</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="dash-hero">
+  <div class="dash-hero-inner">
+    <div class="dash-top-row">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <img src="1.png" style="height:54px;filter:brightness(0) invert(1);opacity:.88;">
+          <div style="width:1px;height:42px;background:rgba(255,255,255,0.3);"></div>
+          <img src="2.png" style="height:54px;filter:brightness(0) invert(1);opacity:.88;">
+        </div>
+        <div>
+          <div class="hero-badge">لوحة التقييم · 1447هـ</div>
+          <h1>إحصائيات <span>الأنشطة</span></h1>
+        </div>
+      </div>
+      <div class="dash-kpi-row">
+        <div class="dash-kpi"><span class="val" id="kTotal">0</span><span class="lbl">نشاط مرفوع</span></div>
+        <div class="dash-kpi"><span class="val" id="kBene">0</span><span class="lbl">مستفيد</span></div>
+        <div class="dash-kpi"><span class="val" id="kClubs">0</span><span class="lbl">نادٍ شارك</span></div>
+        <div class="dash-kpi"><span class="val" id="kInternal">0</span><span class="lbl">داخلي</span></div>
+        <div class="dash-kpi"><span class="val" id="kExternal">0</span><span class="lbl">خارجي</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KPI CARDS ══ -->
+<div class="kpi-cards">
+  <div class="kpi-card"><div class="kc-lbl">عدد المشاركين الكلي</div><div class="kc-val" id="kc1">0</div><div class="kc-sub kc-up" id="kc1s">—</div></div>
+  <div class="kpi-card"><div class="kc-lbl">أنشطة معتمدة</div><div class="kc-val" id="kc2">0</div><div class="kc-sub" id="kc2s">—</div></div>
+  <div class="kpi-card"><div class="kc-lbl">متوسط الدرجة</div><div class="kc-val" id="kc3">—</div><div class="kc-sub kc-up" id="kc3s">—</div></div>
+  <div class="kpi-card"><div class="kc-lbl">أندية بتقدير ممتاز</div><div class="kc-val" style="color:#1D9E75" id="kc4">0</div><div class="kc-sub" style="color:#1D9E75">درجة ≥ 90</div></div>
+  <div class="kpi-card"><div class="kc-lbl">أندية تحت المتوسط</div><div class="kc-val kc-red" id="kc5">0</div><div class="kc-sub kc-warn">تحتاج متابعة عاجلة</div></div>
+  <div class="kpi-card"><div class="kc-lbl">شذوذات مُبلَّغة</div><div class="kc-val kc-warn" id="kc6">0</div><div class="kc-sub kc-warn">في انتظار مراجعة</div></div>
+  <div class="kpi-card"><div class="kc-lbl">نسبة تنفيذ الخطط</div><div class="kc-val" id="kc7">—</div><div class="kc-sub kc-up" id="kc7s">—</div></div>
+</div>
+
+<!-- ══ MAIN GRID ══ -->
+<div class="dash-content">
+
+  <div class="dash-card">
+    <div class="dash-card-title">نشاط الكليات · حسب التفاعل والإنجاز</div>
+    <div class="month-tabs">
+      <button class="m-tab" onclick="setMonth('sep',this)">سبتمبر</button>
+      <button class="m-tab active" onclick="setMonth('oct',this)">أكتوبر</button>
+      <button class="m-tab" onclick="setMonth('nov',this)">نوفمبر</button>
+      <button class="m-tab" onclick="setMonth('dec',this)">ديسمبر</button>
+    </div>
+    <div class="ring-list" id="ringList"></div>
+  </div>
+
+  <div class="dash-card">
+    <div class="dash-card-title">الأنشطة المنفذة شهرياً</div>
+    <div style="position:relative;height:240px;"><canvas id="chartMonthly"></canvas></div>
+    <div style="display:flex;gap:14px;margin-top:10px;font-size:11px;flex-wrap:wrap;">
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#325958;display:inline-block;"></span>شطر الطلاب</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#b79460;display:inline-block;"></span>شطر الطالبات</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#8aacb2;display:inline-block;"></span>عدد الأنشطة</span>
+    </div>
+  </div>
+
+  <div class="side-col">
+    <div class="dash-card">
+      <div class="dash-card-title">الكليات المتصدرة · حسب نسبة الإنجاز</div>
+      <div class="rank-list" id="rankList"></div>
+    </div>
+    <div class="alert-dark">
+      <div class="adt">⚠ تنبيهات تحتاج متابعة</div>
+      <div id="alertList"></div>
+    </div>
+  </div>
+
+  <div class="dash-card">
+    <div class="dash-card-title">عدد البرامج المنفذة</div>
+    <div id="progChartWrap"><div class="no-chart">لا توجد بيانات بعد</div></div>
+  </div>
+
+  <div class="dash-card">
+    <div class="dash-card-title">عدد المستفيدين · حسب الكلية</div>
+    <div id="beneChartWrap"><div class="no-chart">لا توجد بيانات بعد</div></div>
+  </div>
+
+  <div class="dash-card" style="grid-column:1/3;">
+    <div class="dash-card-title">جميع الأنشطة المرفوعة</div>
+    <div class="live-badge"><div class="live-dot"></div>مباشر — يتحدث عند كل إرسال</div>
+    <div style="overflow-x:auto;">
+      <table class="sub-table">
+        <thead>
+          <tr><th>#</th><th>النادي</th><th>اسم البرنامج</th><th>النوع</th><th>الطبيعة</th><th>التاريخ</th><th>طلاب</th><th>طالبات</th><th>الإجمالي</th><th>الشواهد</th></tr>
+        </thead>
+        <tbody id="subTableBody">
+          <tr><td colspan="10"><div class="empty-state"><div class="icon">📋</div><p>لا توجد أنشطة مرفوعة بعد<br>ارفع أول نشاط من تبويب "رفع نشاط"</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer style="background:var(--teal-dark);color:rgba(255,255,255,0.5);text-align:center;padding:22px;font-size:13px;display:flex;align-items:center;justify-content:center;gap:16px;">
+  <img src="1.png" style="height:26px;filter:brightness(0) invert(1);opacity:.4;">
+  <p>نظام الأندية الطلابية · <strong style="color:var(--gold-light)">جامعة جازان</strong> · 1447هـ · عمادة شؤون الطلاب</p>
+  <img src="2.png" style="height:28px;filter:brightness(0) invert(1);opacity:.4;">
+</footer>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

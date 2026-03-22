@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تقييم الأندية الطلابية | جامعة جازان 1447هـ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav">
+  <div class="nav-links">
+    <button class="nav-btn" id="btn-clubs" onclick="location.href='index.html'">🏠 الأندية</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn active" id="btn-form" onclick="location.href='submit.html'">📋 رفع نشاط</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" id="btn-dash" onclick="location.href='dashboard.html'">📊 التقييم</button>
+  </div>
+  <div class="nav-brand">عمادة شؤون الطلاب · جامعة جازان 1447هـ</div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 1 — CLUBS
+══════════════════════════════════════════════ -->
+<div class="page active" id="page-form">
+<div class="form-hero">
+  <div class="form-hero-inner">
+    <div class="hero-badge">نموذج رفع النشاط · 1447هـ</div>
+    <h1>رفع <span>تقرير نشاط</span></h1>
+    <p>يُرجى تعبئة جميع الحقول المطلوبة بدقة — تظهر البيانات فوراً في صفحة التقييم</p>
+  </div>
+</div>
+
+<div class="form-wrap">
+<div class="form-card">
+
+  <!-- S1 بيانات النادي -->
+  <div class="form-section-bar"><div class="fsnum">1</div><span>بيانات النادي</span></div>
+  <div class="form-fields">
+    <div class="fgroup">
+      <label>نوع النادي <span class="req">*</span></label>
+      <div class="choice-grid" id="club-type-choices">
+        <div class="choice-item" onclick="selectRadio('f_type','كليات',this)"><div class="radio-dot"></div>نادي كلية</div>
+        <div class="choice-item" onclick="selectRadio('f_type','مركزي',this)"><div class="radio-dot"></div>نادي مركزي</div>
+      </div>
+      <input type="hidden" id="f_type">
+    </div>
+    <div class="fgroup">
+      <label>اسم النادي <span class="req">*</span></label>
+      <select id="f_club">
+        <option value="">-- اختر النادي --</option>
+        <optgroup label="أندية الكليات" id="og-college">
+          <option>نادي كلية الطب</option><option>نادي العلوم</option>
+          <option>نادي الهندسة وعلوم الحاسب</option><option>نادي الأعمال</option>
+          <option>نادي الصيدلة</option><option>نادي التمريض والعلوم الصحية</option>
+          <option>نادي طب الأسنان</option><option>نادي الكلية التطبيقية</option>
+          <option>نادي الشريعة والقانون</option><option>نادي التطبيقات الصناعية ببيش</option>
+        </optgroup>
+        <optgroup label="الأندية المركزية">
+          <option>نادي الأمن السيبراني</option><option>نادي البحث العلمي والابتكار</option>
+          <option>نادي مهارات المستقبل</option><option>نادي ريادة الأعمال</option>
+          <option>نادي التصوير الضوئي</option><option>نادي التصميم والمونتاج</option>
+          <option>نادي اللغة الإنجليزية</option><option>نادي الثقافة</option>
+          <option>نادي العلاقات العامة والإعلام</option><option>نادي نزاهة</option>
+          <option>نادي التوعية الفكرية</option><option>نادي الجوالة</option>
+          <option>نادي الفنون التشكيلية</option><option>نادي رسن الفروسية</option>
+          <option>نادي الموسيقى والفنون الصوتية</option><option>نادي فنون الطهي</option>
+          <option>نادي أصدقاء البيئة</option><option>نادي السلامة المهنية</option>
+          <option>نادي الأزياء</option><option>نادي المسرح</option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+
+  <!-- S2 بيانات البرنامج -->
+  <div class="form-section-bar"><div class="fsnum">2</div><span>بيانات البرنامج</span></div>
+  <div class="form-fields single">
+    <div class="fgroup">
+      <label>اسم البرنامج (كما في الخطة) <span class="req">*</span></label>
+      <input type="text" id="f_name" placeholder="مثال: ورشة أساسيات الأمن السيبراني">
+    </div>
+    <div class="fgroup">
+      <label>ملخص عن البرنامج (وصف مختصر) <span class="req">*</span></label>
+      <textarea id="f_desc" placeholder="اكتب وصفاً موجزاً عن البرنامج وأهدافه..."></textarea>
+    </div>
+  </div>
+
+  <!-- S3 تصنيف البرنامج -->
+  <div class="form-section-bar"><div class="fsnum">3</div><span>تصنيف البرنامج</span></div>
+  <div class="form-fields">
+    <div class="fgroup full">
+      <label>نوع البرنامج <span class="req">*</span></label>
+      <div class="choice-grid" style="grid-template-columns:1fr 1fr 1fr;" id="prog-type-choices">
+        <div class="choice-item" onclick="selectRadio('f_prog_type','اجتماعي',this)"><div class="radio-dot"></div>اجتماعي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','ثقافي',this)"><div class="radio-dot"></div>ثقافي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','صحي',this)"><div class="radio-dot"></div>صحي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','تدريبي',this)"><div class="radio-dot"></div>تدريبي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','رياضي',this)"><div class="radio-dot"></div>رياضي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','ترفيهي',this)"><div class="radio-dot"></div>ترفيهي</div>
+        <div class="choice-item" onclick="selectRadio('f_prog_type','غير ذلك',this)"><div class="radio-dot"></div>غير ذلك</div>
+      </div>
+      <input type="hidden" id="f_prog_type">
+    </div>
+    <div class="fgroup full">
+      <label>طبيعة البرنامج <span class="req">*</span></label>
+      <div class="choice-grid" id="prog-nature-choices">
+        <div class="choice-item" onclick="selectRadio('f_nature','داخلي (داخل الجامعة)',this)"><div class="radio-dot"></div>داخلي — داخل الجامعة</div>
+        <div class="choice-item" onclick="selectRadio('f_nature','خارجي (خارج الجامعة)',this)"><div class="radio-dot"></div>خارجي — خارج الجامعة</div>
+      </div>
+      <input type="hidden" id="f_nature">
+    </div>
+  </div>
+
+  <!-- S4 التنفيذ -->
+  <div class="form-section-bar"><div class="fsnum">4</div><span>بيانات التنفيذ</span></div>
+  <div class="form-fields">
+    <div class="fgroup">
+      <label>تاريخ التنفيذ <span class="req">*</span></label>
+      <input type="date" id="f_date">
+    </div>
+    <div class="fgroup">
+      <label>مدة التنفيذ <span class="req">*</span></label>
+      <input type="text" id="f_duration" placeholder="مثال: ساعتان / يوم كامل">
+    </div>
+    <div class="fgroup full">
+      <label>مقر التنفيذ <span class="req">*</span></label>
+      <input type="text" id="f_location" placeholder="مثال: قاعة المؤتمرات — مبنى الكليات الصحية">
+    </div>
+  </div>
+
+  <!-- S5 المستفيدون -->
+  <div class="form-section-bar"><div class="fsnum">5</div><span>المستفيدون</span></div>
+  <div class="form-fields">
+    <div class="fgroup">
+      <label>عدد المستفيدين (طلاب) <span class="req">*</span></label>
+      <input type="number" id="f_male" min="0" placeholder="0">
+    </div>
+    <div class="fgroup">
+      <label>عدد المستفيدين (طالبات) <span class="req">*</span></label>
+      <input type="number" id="f_female" min="0" placeholder="0">
+    </div>
+    <div class="fgroup full">
+      <label>الفئة المستهدفة <span class="req">*</span></label>
+      <div class="choice-grid" style="grid-template-columns:1fr 1fr 1fr;" id="target-choices">
+        <div class="choice-item" onclick="selectRadio('f_target','طلبة الجامعة',this)"><div class="radio-dot"></div>طلبة الجامعة</div>
+        <div class="choice-item" onclick="selectRadio('f_target','طلبة الجامعة ومنسوبيها',this)"><div class="radio-dot"></div>طلبة الجامعة ومنسوبيها</div>
+        <div class="choice-item" onclick="selectRadio('f_target','المجتمع المحلي',this)"><div class="radio-dot"></div>المجتمع المحلي</div>
+      </div>
+      <input type="hidden" id="f_target">
+    </div>
+  </div>
+
+  <!-- S6 الروابط والشواهد -->
+  <div class="form-section-bar"><div class="fsnum">6</div><span>الروابط والشواهد</span></div>
+  <div class="form-fields single">
+    <div class="fgroup">
+      <label>رابط الفرصة التطوعية التي تم إنشاؤها للبرنامج</label>
+      <input type="url" id="f_volunteer" placeholder="https://...">
+    </div>
+    <div class="fgroup">
+      <label>رابط الشواهد (صور — تقارير — مقاطع) <span class="req">*</span></label>
+      <input type="url" id="f_evidence" placeholder="https://drive.google.com/... أو SharePoint">
+    </div>
+  </div>
+
+  <!-- S7 معد التقرير -->
+  <div class="form-section-bar"><div class="fsnum">7</div><span>معد التقرير</span></div>
+  <div class="form-fields">
+    <div class="fgroup">
+      <label>اسم معد التقرير <span class="req">*</span></label>
+      <input type="text" id="f_author" placeholder="الاسم الكامل">
+    </div>
+    <div class="fgroup">
+      <label>رقم الجوال للتواصل <span class="req">*</span></label>
+      <input type="tel" id="f_phone" placeholder="05xxxxxxxx">
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <div class="form-note">⚡ تظهر البيانات فوراً في صفحة التقييم بعد الإرسال</div>
+    <button class="submit-btn" onclick="submitActivity()">
+      <span>إرسال التقرير</span> <span>←</span>
+    </button>
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <h2>تم الإرسال بنجاح!</h2>
+    <div class="success-club-badge" id="sClubName">—</div>
+    <p id="sDetails">—</p>
+    <button class="go-dashboard-btn" onclick="goToDash()">عرض التقييم الآن ←</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 3 — DASHBOARD
+══════════════════════════════════════════════ -->
+<script src="js/submit.js"></script>
+</body>
+</html>

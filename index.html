@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تقييم الأندية الطلابية | جامعة جازان 1447هـ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav">
+  <div class="nav-links">
+    <button class="nav-btn active" id="btn-clubs" onclick="location.href='index.html'">🏠 الأندية</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" id="btn-form" onclick="location.href='submit.html'">📋 رفع نشاط</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" id="btn-dash" onclick="location.href='dashboard.html'">📊 التقييم</button>
+  </div>
+  <div class="nav-brand">عمادة شؤون الطلاب · جامعة جازان 1447هـ</div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 1 — CLUBS
+══════════════════════════════════════════════ -->
+<div class="page active" id="page-clubs">
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">جامعة جازان · عمادة شؤون الطلاب</div>
+    <h1>خطط أنشطة <span>الأندية الطلابية</span></h1>
+    <p>العام الأكاديمي 1447هـ · خطة الأنشطة اللاصفية</p>
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-num">30</span><span class="stat-label">نادي طلابي</span></div>
+      <div class="stat-item"><span class="stat-num">5</span><span class="stat-label">محاور نشاط</span></div>
+      <div class="stat-item"><span class="stat-num">400+</span><span class="stat-label">نشاط ومبادرة</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="ابحث عن نادي أو نشاط..." oninput="filterClubs()">
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter('all',this)">جميع الأندية</button>
+    <button class="filter-tab" onclick="setFilter('college',this)">أندية الكليات</button>
+    <button class="filter-tab" onclick="setFilter('central',this)">الأندية المركزية</button>
+  </div>
+</div>
+
+<div class="section-header"><div class="section-line"></div><h2 class="section-title"><span>10</span> أندية الكليات</h2></div>
+<div class="clubs-grid" id="collegeGrid"></div>
+
+<div class="section-header"><div class="section-line"></div><h2 class="section-title"><span>20</span> الأندية المركزية</h2></div>
+<div class="clubs-grid" id="centralGrid"></div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div><div class="modal-club-type" id="mType"></div><div class="modal-title" id="mTitle"></div></div>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 2 — FORM
+══════════════════════════════════════════════ -->
+<script src="js/app.js"></script>
+</body>
+</html>
